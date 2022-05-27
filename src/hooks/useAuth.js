@@ -33,7 +33,9 @@ function useProvideAuth() {
             {email, password}, 
             options
         );
-        console.log(acces_token);
+        if(acces_token) {
+            Cookie.set('token', acces_token.acces_token, { expires: 5 });
+        }
     };
     return{
         user, 
