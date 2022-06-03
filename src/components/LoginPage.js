@@ -14,21 +14,10 @@ export default function LoginPage() {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    auth
-      .signIn(email, password)
-      .then(() => {
-        
-      })
+    auth.signIn(email, password).then(() => {
       console.log('Login Successfully');
-      /*.catch((error) => {
-        if(error.response?.status === 401) {
-          setErrorLogin('Username or Password incorrect');
-        } else if (error.request) {
-          setErrorLogin('We are having troubles');
-        } else {
-          setErrorLogin('Something went wrong');
-        }
-      });*/
+    });
+      
   };
 
   return (
