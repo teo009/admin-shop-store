@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckIcon, PlusCircleIcon } from '@heroicons/react/solid';
 import Modal from '@common/Modal';
+import FormProduct from '@components/FormProduct';
 
 export default function products() {
     const [products, setProducts] = useState([]);
@@ -121,7 +122,7 @@ export default function products() {
                 </div>
             </div>
             <Modal open={open} setOpen={setOpen}>
-                <h1>Hello World</h1>
+                <FormProduct />
             </Modal>
         </>
     );
