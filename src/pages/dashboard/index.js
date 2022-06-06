@@ -1,7 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { useState } from 'react';
-import endPoints from "@services/api";
-import useFetch from "@hooks/useFetch";
+import { Chart } from '@common/Chart';
+import endPoints from '@services/api';
+import useFetch from '@hooks/useFetch';
 
 const PRODUCT_LIMIT = 5;
 
@@ -10,6 +11,19 @@ export default function Dashboard() {
   const [currentProducts, setCurrentProducts] = useState(null)  
   const products = useFetch(endPoints.products.getProducts(PRODUCT_LIMIT, (page - 1) * PRODUCT_LIMIT));
   const totalProducts = useFetch(endPoints.products.getProducts(0, 0)).length;
+  const categoryNames = products?.map((product) => product.category);
+  const categoryCount = categoryNames?.map((category) => category.name);
+  const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+
+  const data = {
+    datasets: [{
+      label: 'Categories',
+      data: countOccurrences(categoryCount),
+      borderWith: 2,
+      backgroundColor: ['#ffbb11', '#c0c0c', '#50AF95', '#f3ba2f', '#2a71d0'],
+    }]
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -149,6 +163,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      <Chart className="mb-8 mt-2" chartData={data} />
     </>
   );
 }
