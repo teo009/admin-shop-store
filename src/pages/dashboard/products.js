@@ -4,10 +4,13 @@ import Modal from '@common/Modal';
 import FormProduct from '@components/FormProduct';
 import axios from 'axios';
 import endPoints from '@services/api';
+import useAlert from '@hooks/useAlert';
+import Alert from '@common/Alert';
 
 export default function Products() {
     const [products, setProducts] = useState([]);
     const [open, setOpen] = useState(false);
+    const { alert, setAlert, toggleAlert } = useAlert();
 
     useEffect(() => {
         async function loadProducts() {
@@ -19,10 +22,11 @@ export default function Products() {
         } catch (error) {
             console.log(error);
         }
-    }, []);
+    }, [alert]);
 
     return (
         <>
+            <Alert alert={alert} handleClose={toggleAlert} />
             <div className="lg:flex lg:items-center lg:justify-between mb-8">
                 <div className="flex-1 min-w-0">
                     <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">List of Products</h2>
@@ -137,7 +141,7 @@ export default function Products() {
                 </div>
             </div>
             <Modal open={open} setOpen={setOpen}>
-                <FormProduct />
+                <FormProduct setOpen={setOpen} setAlert={setAlert} />
             </Modal>
         </>
     );
