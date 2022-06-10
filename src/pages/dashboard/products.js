@@ -1,11 +1,26 @@
-import { useState } from 'react';
-import { CheckIcon, PlusCircleIcon } from '@heroicons/react/solid';
+import { useState, useEffect } from 'react';
+import { PlusCircleIcon } from '@heroicons/react/solid';
 import Modal from '@common/Modal';
 import FormProduct from '@components/FormProduct';
+import axios from 'axios';
+import endPoints from '@services/api';
 
-export default function products() {
+export default function Products() {
     const [products, setProducts] = useState([]);
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        async function loadProducts() {
+            const response = await axios.get(endPoints.products.allProducts);
+            setProducts(response.data);
+        }
+        try {
+            loadProducts()
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
     return (
         <>
             <div className="lg:flex lg:items-center lg:justify-between mb-8">
