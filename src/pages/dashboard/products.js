@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { PlusCircleIcon } from '@heroicons/react/solid';
+import { PlusCircleIcon, XCircleIcon } from '@heroicons/react/solid';
+import { deleteProduct } from '@services/api/product';
 import Modal from '@common/Modal';
 import FormProduct from '@components/FormProduct';
 import axios from 'axios';
@@ -11,6 +12,17 @@ export default function Products() {
     const [products, setProducts] = useState([]);
     const [open, setOpen] = useState(false);
     const { alert, setAlert, toggleAlert } = useAlert();
+
+    const handleDelete = (id) => {
+        deleteProduct(id).then(() => {
+            setAlert({
+                active: true,
+                message: 'Delete product successfully',
+                type: 'error',
+                autoClose: true,
+            });
+        });
+    }
 
     useEffect(() => {
         async function loadProducts() {
@@ -125,12 +137,11 @@ export default function Products() {
                                                 </a>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <a
-                                                    href="/delete"
-                                                    className="text-indigo-600 hover:text-indigo-900"
-                                                >
-                                                    Delete
-                                                </a>
+                                                <XCircleIcon 
+                                                    className='flex-shrink-0 h-6 text-gray-400 cursor-pointer' 
+                                                    onClick={() => handleDelete(product.id)}
+                                                    aria-hidden='true'
+                                                />
                                             </td>
                                         </tr>
                                     ))}
